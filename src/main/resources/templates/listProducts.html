@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Стартовая страница</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
+</head>
+
+<body>
+
+<div th:replace="~{navigation :: navi(Home)}" />
+
+<div class="container">
+    <br>
+    <h1>Товары</h1>
+
+    <span th:if="${products.size() == 0}">Товаров нет</span>
+    <div th:unless="${products.size() == 0}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Цена</th>
+                <th>Действия</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="product : ${products}" th:attr="prod_index=${product.id}">
+                <td th:text="${product.id}"/>
+                <td th:text="${product.title}"/>
+                <td>
+                    <span th:text="${product.cost}" th:classAppend="${product.cost > 40.0} ? 'badge badge-danger' : ''" />
+                </td>
+                <td>
+                    <a th:href="@{'/info/' + ${product.id}}" th:text="Информация"/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${productPage.totalPages > 0}" class="pagination"
+             th:each="pageNumber : ${pageNumbers}">
+            <a th:href="@{/listProducts(size=${productPage.size}, page=${pageNumber})}"
+               th:text="${pageNumber}"
+               th:class="${pageNumber==productPage.number + 1} ? active"></a>
+        </div>
+    </div>
+
+</body>
+</html>
