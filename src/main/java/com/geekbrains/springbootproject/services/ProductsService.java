@@ -4,14 +4,10 @@ import com.geekbrains.springbootproject.entities.Product;
 import com.geekbrains.springbootproject.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
-
 
 @Service
 public class ProductsService {
@@ -22,33 +18,29 @@ public class ProductsService {
         this.productsRepository = productsRepository;
     }
 
+    public Product findByTitle(String title) {
+        return productsRepository.findOneByTitle(title);
+    }
+
+    public Product findById(Long id) {
+        return productsRepository.findById(id).orElse(null);
+    }
+
     public List<Product> getAllProducts() {
-        return (List<Product>)productsRepository.findAll();
+        return (List<Product>) productsRepository.findAll();
+    }
+
+    public Page<Product> getProductsByCost(Pageable pageable, Double min, Double max) {
+        if (min == null) {
+            min = 0.0;
+        }
+        if (max == null) {
+            max = Double.MAX_VALUE;
+        }
+        return productsRepository.findAllByCostBetween(pageable, min, max);
     }
 
     public Product saveOrUpdate(Product product) {
         return productsRepository.save(product);
     }
-
-    final private List<Product> products = getAllProducts();
-
-    public Page<Product> findPaginated(Pageable pageable) {
-        int pageSize = pageable.getPageSize();
-        int currentPage = pageable.getPageNumber();
-        int startItem = currentPage * pageSize;
-        List<Product> list;
-
-        if (products.size() < startItem) {
-            list = Collections.emptyList();
-        } else {
-            int toIndex = Math.min(startItem + pageSize, products.size());
-            list = products.subList(startItem, toIndex);
-        }
-
-        Page<Product> productPage
-                = new PageImpl<Product>(list, PageRequest.of(currentPage, pageSize), products.size());
-
-        return productPage;
-    }
-
 }

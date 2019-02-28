@@ -20,10 +20,16 @@
     <br>
     <h1>Товары</h1>
 
+    <form th:action="@{/}" method="get">
+        <input th:value="${min}" th:name="min" type="number" placeholder="Минимальная цена">
+        <input th:value="${max}" th:name="max" type="number" placeholder="Максимальная цена">
+        <button type="submit" class="btn btn-primary">Фильтровать</button>
+    </form>
+
     <!--<span th:text="${'First disk title: ' + disks.get(0).title}" />-->
 
-    <span th:if="${products.size() == 0}">Товаров нет</span>
-    <div th:unless="${products.size() == 0}">
+    <span th:if="${page.getContent().size() == 0}">Товаров нет</span>
+    <div th:if="${page.getContent().size() != 0}">
         <table class="table table-hover">
             <thead class="thead-dark">
             <tr>
@@ -34,7 +40,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="product : ${products}" th:attr="prod_index=${product.id}">
+            <tr th:each="product : ${page.getContent()}" th:attr="prod_index=${product.id}">
                 <td th:text="${product.id}"/>
                 <td th:text="${product.title}"/>
                 <td>
@@ -42,6 +48,7 @@
                 </td>
                 <td>
                     <a th:href="@{'/info/' + ${product.id}}" th:text="Информация"/>
+                    <a th:href="@{'/product/edit/' + ${product.id}}" th:text="Изменить"/>
                 </td>
             </tr>
             </tbody>
@@ -52,7 +59,7 @@
                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>
 
                 <li class="page-item" th:each="i : ${#numbers.sequence(1, 5)}">
-                    <a class="page-link" th:text="${i}" href="#" />
+                    <a class="page-link" th:text="${i}" th:href="@{'/page/' + ${i + 1}}" />
                 </li>
 
                 <li class="page-item"><a class="page-link" href="#">Next</a></li>
