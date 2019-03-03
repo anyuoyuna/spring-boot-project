@@ -43,4 +43,18 @@ public class ProductsService {
     public Product saveOrUpdate(Product product) {
         return productsRepository.save(product);
     }
+
+    public Product save(Product product){
+        product.setId(0L);
+        return productsRepository.save(product);
+    }
+
+    public Product update(Product product){
+        return productsRepository.save(product);
+    }
+
+    public int delete(Product product) {
+        productsRepository.deleteById(product.getId());
+        return 200;
+    }
 }
