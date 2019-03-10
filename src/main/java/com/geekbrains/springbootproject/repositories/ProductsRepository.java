@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface ProductsRepository extends CrudRepository<Product, Long> {
+public interface ProductsRepository extends PagingAndSortingRepository<Product, Long> {
     Page<Product> findAllByCostBetween(Pageable pageable, double minCost, double maxCost);
     Product findOneByTitle(String title);
 }
