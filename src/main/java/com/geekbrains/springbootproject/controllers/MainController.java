@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @Controller
@@ -24,7 +25,6 @@ public class MainController {
     @GetMapping("/")
     public String showHomePage(Model model, @RequestParam(value = "min", required = false) Double min,
                                @RequestParam(value = "max", required = false) Double max) {
-
         Page<Product> page = productsService.getProductsByCost(PageRequest.of(0, 5), min, max);
         model.addAttribute("min", min);
         model.addAttribute("max", max);
@@ -38,6 +38,13 @@ public class MainController {
         return "info";
     }
 
+    @PostMapping("/data")
+    @ResponseBody
+    public String procData(HttpServletRequest request) {
+        System.out.println(request.getParameterMap().keySet());
+        return "info";
+    }
+
     @GetMapping("/product/edit/{id}")
     public String addProductPage(Model model, @PathVariable("id") Long id) {
         Product product = productsService.findById(id);
@@ -48,19 +55,15 @@ public class MainController {
         return "edit-product";
     }
 
-    @GetMapping("/international")
-    public String internationalPage() {
-        return "international";
-    }
-
     // Binding Result после @ValidModel !!!
     @PostMapping("/product/edit")
     public String addProduct(@Valid @ModelAttribute("product") Product product, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "edit-product";
         }
+
         Product existing = productsService.findByTitle(product.getTitle());
-        if (existing != null && !product.getId().equals(existing.getId())) {
+        if (existing != null && (product.getId() == null || !product.getId().equals(existing.getId()))) {
             // product.setTitle(null);
             model.addAttribute("product", product);
             model.addAttribute("productCreationError", "Product title already exists");

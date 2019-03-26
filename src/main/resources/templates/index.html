@@ -26,8 +26,6 @@
         <button type="submit" class="btn btn-primary">Фильтровать</button>
     </form>
 
-    <!--<span th:text="${'First disk title: ' + disks.get(0).title}" />-->
-
     <span th:if="${page.getContent().size() == 0}">Товаров нет</span>
     <div th:if="${page.getContent().size() != 0}">
         <table class="table table-hover">
@@ -44,11 +42,10 @@
                 <td th:text="${product.id}"/>
                 <td th:text="${product.title}"/>
                 <td>
-                    <span th:text="${product.cost}" th:classAppend="${product.cost > 40.0} ? 'badge badge-danger' : ''" />
+                    <span th:text="${product.price}" th:classAppend="${product.price > 40.0} ? 'badge badge-danger' : ''" />
                 </td>
                 <td>
-                    <a th:href="@{'/info/' + ${product.id}}" th:text="Информация"/>
-                    <a th:href="@{'/product/edit/' + ${product.id}}" th:text="Изменить"/>
+                    <a th:href="@{'/cart/add/' + ${product.id}}" th:text="Купить"/>
                 </td>
             </tr>
             </tbody>
@@ -56,13 +53,13 @@
 
         <nav aria-label="Page navigation example">
             <ul class="pagination">
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <!--<li class="page-item"><a class="page-link" href="#">Previous</a></li>-->
 
-                <li class="page-item" th:each="i : ${#numbers.sequence(1, 5)}">
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, page.getTotalPages())}">
                     <a class="page-link" th:text="${i}" th:href="@{'/page/' + ${i + 1}}" />
                 </li>
 
-                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                <!--<li class="page-item"><a class="page-link" href="#">Next</a></li>-->
             </ul>
 
         </nav>

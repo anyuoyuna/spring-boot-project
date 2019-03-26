@@ -25,8 +25,8 @@ public class Product {
     @Column(name = "title")
     private String title;
 
-    @NotNull(message = "Cost cannot be null")
-    @Min(value = 1, message = "Min cost error")
-    @Column(name = "cost")
-    private double cost;
+    @NotNull(message = "Price cannot be null")
+    @Min(value = 1, message = "Min price error")
+    @Column(name = "price")
+    private double price;
 }

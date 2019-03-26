@@ -45,15 +45,31 @@ DROP TABLE IF EXISTS products;
 CREATE TABLE products (
                         id                    INT(11) NOT NULL AUTO_INCREMENT,
                         title                 VARCHAR(50) NOT NULL,
-                        cost                  DECIMAL(8,2) NOT NULL,
+                        price                 DECIMAL(8,2) NOT NULL,
                         PRIMARY KEY (id)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS orders_item;
+
+CREATE TABLE orders_item (
+                           id	                INT(11) NOT NULL AUTO_INCREMENT,
+                           product_id            INT(11) NOT NULL,
+  --  order_id              INT(11) NOT NULL,
+                           quantity              INT NOT NULL,
+                           item_price            DECIMAL(8,2) NOT NULL,
+                           total_price           DECIMAL(8,2) NOT NULL,
+                           PRIMARY KEY (id),
+  --  CONSTRAINT FK_ORDER_ID FOREIGN KEY (order_id)
+  --  REFERENCES orders (id),
+                           CONSTRAINT FK_PRODUCT_ID_ORD_IT FOREIGN KEY (product_id)
+                             REFERENCES products (id)
+) ENGINE = InnoDB DEFAULT CHARSET = utf8;
+
 SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO products (title, cost)
+INSERT INTO products (title, price)
 VALUES
-('Хлеб', 30), ('Молоко', 50);
+('Хлеб', 30), ('Молоко', 50), ('Чай', 60), ('Кефир', 50), ('Сметана', 60), ('Творог', 250), ('Пирожок', 20), ('Масло', 120);
 
 INSERT INTO roles (name)
 VALUES

@@ -37,7 +37,7 @@ public class ProductsService {
         if (max == null) {
             max = Double.MAX_VALUE;
         }
-        return productsRepository.findAllByCostBetween(pageable, min, max);
+        return productsRepository.findAllByPriceBetween(pageable, min, max);
     }
 
     public Product saveOrUpdate(Product product) {

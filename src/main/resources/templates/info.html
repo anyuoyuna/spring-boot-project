@@ -19,6 +19,15 @@
 <div class="container">
     <br>
     <h1>Информация</h1>
+
+    <form th:action="@{/data}" method="POST">
+        <input th:each="i : ${#numbers.sequence(1, 5)}" th:name="${'datval' + i}" type="text">
+        <button type="submit" class="btn btn-primary">Готово</button>
+    </form>
+
+    <!--<form method="post">-->
+    <!--<input type="text" th:each="i : ${#numbers.sequence(1, 5)}">-->
+    <!--</form>-->
 </div>
 
 </body>
