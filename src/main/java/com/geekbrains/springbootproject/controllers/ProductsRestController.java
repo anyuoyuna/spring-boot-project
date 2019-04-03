@@ -30,21 +30,21 @@ public class ProductsRestController {
     public Product getOneProduct(@PathVariable("id") Long id){
         return productsService.findById(id);
     }
-
-    @PostMapping("/products")
-    public Product addNewProduct(@RequestBody Product product){
-        return productsService.save(product);
-    }
-
-    @PutMapping("/products")
-    public Product updateProduct(@RequestBody Product product) {
-        return productsService.update(product);
-    }
-
-    @DeleteMapping("/products")
-    public int deleteProduct (@RequestBody Product product){
-        return productsService.delete(product);
-    }
+//
+//    @PostMapping("/products")
+//    public Product addNewProduct(@RequestBody Product product){
+//        return productsService.save(product);
+//    }
+//
+//    @PutMapping("/products")
+//    public Product updateProduct(@RequestBody Product product) {
+//        return productsService.update(product);
+//    }
+//
+//    @DeleteMapping("/products")
+//    public int deleteProduct (@RequestBody Product product){
+//        return productsService.delete(product);
+//    }
 
     @ExceptionHandler
     public ResponseEntity<ProductsErrorResponse> handleException(ProductNotFoundException exc) {

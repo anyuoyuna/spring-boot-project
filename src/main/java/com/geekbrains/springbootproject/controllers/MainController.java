@@ -22,26 +22,8 @@ public class MainController {
         this.productsService = productsService;
     }
 
-    @GetMapping("/")
-    public String showHomePage(Model model, @RequestParam(value = "min", required = false) Double min,
-                               @RequestParam(value = "max", required = false) Double max) {
-        Page<Product> page = productsService.getProductsByCost(PageRequest.of(0, 5), min, max);
-        model.addAttribute("min", min);
-        model.addAttribute("max", max);
-        model.addAttribute("page", page);
-
-        return "index";
-    }
-
     @GetMapping("/info")
     public String showInfoPage(Model model) {
-        return "info";
-    }
-
-    @PostMapping("/data")
-    @ResponseBody
-    public String procData(HttpServletRequest request) {
-        System.out.println(request.getParameterMap().keySet());
         return "info";
     }
 

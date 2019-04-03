@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8"/>
 
-    <title>Стартовая страница</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <title>GeekWinterMarket</title>
+
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-
-    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
 </head>
 
 <body>
@@ -18,53 +20,8 @@
 
 <div class="container">
     <br>
-    <h1>Товары</h1>
-
-    <form th:action="@{/}" method="get">
-        <input th:value="${min}" th:name="min" type="number" placeholder="Минимальная цена">
-        <input th:value="${max}" th:name="max" type="number" placeholder="Максимальная цена">
-        <button type="submit" class="btn btn-primary">Фильтровать</button>
-    </form>
-
-    <span th:if="${page.getContent().size() == 0}">Товаров нет</span>
-    <div th:if="${page.getContent().size() != 0}">
-        <table class="table table-hover">
-            <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>Название</th>
-                <th>Цена</th>
-                <th>Действия</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="product : ${page.getContent()}" th:attr="prod_index=${product.id}">
-                <td th:text="${product.id}"/>
-                <td th:text="${product.title}"/>
-                <td>
-                    <span th:text="${product.price}" th:classAppend="${product.price > 40.0} ? 'badge badge-danger' : ''" />
-                </td>
-                <td>
-                    <a th:href="@{'/cart/add/' + ${product.id}}" th:text="Купить"/>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-
-        <nav aria-label="Page navigation example">
-            <ul class="pagination">
-                <!--<li class="page-item"><a class="page-link" href="#">Previous</a></li>-->
-
-                <li class="page-item" th:each="i : ${#numbers.sequence(0, page.getTotalPages())}">
-                    <a class="page-link" th:text="${i}" th:href="@{'/page/' + ${i + 1}}" />
-                </li>
-
-                <!--<li class="page-item"><a class="page-link" href="#">Next</a></li>-->
-            </ul>
-
-        </nav>
-    </div>
+    <h1>Java Интернет-магазин</h1>
+    Добро пожаловать в наш интернет-магазин, работающий для Вас с 2018 года!
 </div>
-
 </body>
 </html>

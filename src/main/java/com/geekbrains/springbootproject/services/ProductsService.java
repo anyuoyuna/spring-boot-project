@@ -4,7 +4,9 @@ import com.geekbrains.springbootproject.entities.Product;
 import com.geekbrains.springbootproject.repositories.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,21 +42,11 @@ public class ProductsService {
         return productsRepository.findAllByPriceBetween(pageable, min, max);
     }
 
+    public Page<Product> getProductsWithPagingAndFiltering(int pageNumber, int pageSize, Specification<Product> productSpecification) {
+        return productsRepository.findAll(productSpecification, PageRequest.of(pageNumber, pageSize));
+    }
+
     public Product saveOrUpdate(Product product) {
         return productsRepository.save(product);
-    }
-
-    public Product save(Product product){
-        product.setId(0L);
-        return productsRepository.save(product);
-    }
-
-    public Product update(Product product){
-        return productsRepository.save(product);
-    }
-
-    public int delete(Product product) {
-        productsRepository.deleteById(product.getId());
-        return 200;
     }
 }
