@@ -45,9 +45,7 @@ public class OrderService {
     }
 
     public Order saveOrder(Order order) {
-        Order orderOut = orderRepository.save(order);
-        orderOut.setConfirmed(true);
-        return orderOut;
+        return  orderRepository.save(order);
     }
 
     public Order changeOrderStatus(Order order, OrderStatus newStatus) {

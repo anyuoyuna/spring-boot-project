@@ -39,10 +39,10 @@
             <label for="productTitle">Название</label>
             <input type="text" th:field="*{title}" class="form-control" id="productTitle" placeholder="Введите название товара">
         </div>
-        <div class="error" th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" />
+        <div class="error" th:if="${#fields.hasErrors('price')}" th:errors="*{price}" />
         <div class="form-group">
             <label for="productCost">Цена</label>
-            <input th:field="*{cost}" type="number" class="form-control" id="productCost" placeholder="Введите цену товара">
+            <input th:field="*{price}" type="number" class="form-control" id="productCost" placeholder="Введите цену товара">
         </div>
         <button type="submit" class="btn btn-primary">Сохранить</button>
     </form>

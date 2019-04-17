@@ -53,7 +53,4 @@ public class Order {
     @CreationTimestamp
     private LocalDateTime updateAt;
 
-    @JsonIgnore
-    @Transient
-    private boolean confirmed;
 }
