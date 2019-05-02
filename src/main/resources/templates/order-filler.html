@@ -45,7 +45,6 @@
             </tbody>
         </table>
 
-
         <span>Укажите адрес доставки</span>
         <select class="form-control" name="deliveryAddress" id="dropDeliveryAddresses">
             <option th:each="o : ${deliveryAddresses}" th:value="${o.id}" th:text="${o.address}"></option>

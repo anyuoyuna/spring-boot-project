@@ -1,6 +1,7 @@
 package com.geekbrains.springbootproject.controllers;
 
 import com.geekbrains.springbootproject.entities.Product;
+import com.geekbrains.springbootproject.services.CategoryService;
 import com.geekbrains.springbootproject.services.ProductsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,10 +17,16 @@ import javax.validation.Valid;
 @Controller
 public class MainController {
     private ProductsService productsService;
+    private CategoryService categoryService;
 
     @Autowired
     public void setProductsService(ProductsService productsService) {
         this.productsService = productsService;
+    }
+
+    @Autowired
+    public void setCategoryService(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @GetMapping("/info")
@@ -33,6 +40,7 @@ public class MainController {
         if (product == null) {
             product = new Product();
         }
+        model.addAttribute("categories", categoryService.getAllCategories());
         model.addAttribute("product", product);
         return "edit-product";
     }

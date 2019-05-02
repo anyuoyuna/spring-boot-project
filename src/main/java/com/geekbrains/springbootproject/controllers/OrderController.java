@@ -6,6 +6,7 @@ import com.geekbrains.springbootproject.services.DeliveryAddressService;
 import com.geekbrains.springbootproject.services.OrderService;
 import com.geekbrains.springbootproject.services.ShoppingCartService;
 import com.geekbrains.springbootproject.services.UserService;
+import com.geekbrains.springbootproject.utils.ShoppingCart;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,12 +24,7 @@ public class OrderController {
     private UserService userService;
     private OrderService orderService;
     private DeliveryAddressService deliverAddressService;
-    private ShoppingCartService shoppingCartService;
-
-    @Autowired
-    public void setShoppingCartService(ShoppingCartService shoppingCartService) {
-        this.shoppingCartService = shoppingCartService;
-    }
+    private ShoppingCart shoppingCart;
 
     @Autowired
     public void setUserService(UserService userService) {
@@ -45,25 +41,30 @@ public class OrderController {
         this.deliverAddressService = deliverAddressService;
     }
 
+    @Autowired
+    public void setShoppingCart(ShoppingCart shoppingCart) {
+        this.shoppingCart = shoppingCart;
+    }
+
     @GetMapping("/order/fill")
-    public String orderFill(Model model, HttpSession session, Principal principal) {
+    public String orderFill(Model model, Principal principal) {
         if (principal == null) {
             return "redirect:/login";
         }
         User user = userService.findByUserName(principal.getName());
-        model.addAttribute("cart", shoppingCartService.getCurrentCart(session));
+        model.addAttribute("cart", shoppingCart);
         model.addAttribute("deliveryAddresses", deliverAddressService.getUserAddresses(user.getId()));
         return "order-filler";
     }
 
     @PostMapping("/order/confirm")
-    public String orderConfirm(Model model, HttpSession session, Principal principal, @RequestParam("phoneNumber") String phoneNumber,
+    public String orderConfirm(Model model, Principal principal, @RequestParam("phoneNumber") String phoneNumber,
                                @RequestParam("deliveryAddress") Long deliveryAddressId) {
         if (principal == null) {
             return "redirect:/login";
         }
         User user = userService.findByUserName(principal.getName());
-        Order order = orderService.makeOrder(shoppingCartService.getCurrentCart(session), user);
+        Order order = orderService.makeOrder(shoppingCart, user);
         order.setDeliveryAddress(deliverAddressService.getUserAddressById(deliveryAddressId));
         order.setPhoneNumber(phoneNumber);
         order.setDeliveryDate(LocalDateTime.now().plusDays(7));
